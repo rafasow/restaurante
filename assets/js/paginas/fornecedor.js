@@ -33,8 +33,10 @@ $("#cep").blur(function() {
                     //Atualiza os campos com os valores da consulta.
                     $("#logradouro").val(dados.logradouro);
                     $("#bairro").val(dados.bairro);
-                    $("#cidade").val(dados.localidade + ' - ' + dados.uf);
+                    $("#cidade_op").val(dados.localidade + ' - ' + dados.uf);
                     $('#estado').val(dados.uf);
+                    $('#cidade').val(dados.localidade);
+                    $('#numero').focus();
                 } //end if.
                 else {
                     //CEP pesquisado não foi encontrado.
@@ -60,7 +62,7 @@ $(document).on('click', '#salvar', function(){
     var nome = $('#nome-fantasia').val();
     var cnpj = $('#cnpj').val();
     var cep = $('#cep').val();
-    var rua = $('#logradouto').val();
+    var rua = $('#logradouro').val();
     var telefone = $('#telefone').val();
     var email = $('#email').val();
     var cidade = $('#cidade').val();
@@ -98,8 +100,9 @@ $(document).on('click', '#salvar', function(){
             }
 
         },
-        error: function(){
-
+        error: function(e){
+            console.log(e);
+            alert('Deu um erro do caralho')
         }
     })
 

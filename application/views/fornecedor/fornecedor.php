@@ -39,7 +39,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label>Cidade</label>
-                            <input type="text" class="form-control" id="cidade">
+                            <input type="text" class="form-control" id="cidade_op">
+                            <input type="hidden" value="" id="cidade">
                             <input type="hidden" value="" id="estado">
                         </div>
                         <div class="border-top">

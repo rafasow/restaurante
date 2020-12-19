@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Configurar extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+	
 	public function index()
 	{
 		$this->load->view('estrutura/cabecalho');
@@ -40,9 +26,9 @@ class Configurar extends CI_Controller {
 	public function Salvar_fornecedor()
 	{
 		$dados = $this->input->post();
-		var_dump($dados);
+		//var_dump($dados);exit;
 		if(!empty($dados)){
-			//$set['codigo_for'] = 'DEFAULT';
+			
 			$set['nome_for'] = $dados['nome'];
 			$set['cep_for'] = $dados['cep'];
 			$set['logradouro_for'] = $dados['rua'];
@@ -56,13 +42,14 @@ class Configurar extends CI_Controller {
 
 
 			$retorno = $this->crud->inserir('fornecedor', $set);
+			//print_r($retorno);exit;
 
 			if($retorno){
 				echo json_encode(array('retorno' => true));
+			}else{
+				echo json_encode(array('retorno' => false));
 			}
 			
-		}else{
-			echo json_encode(array('retorno' => false));
 		}
 
 		
