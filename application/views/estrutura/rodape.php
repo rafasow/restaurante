@@ -13,7 +13,7 @@
             }
         ?>
     
-   
+        <script src="<?=base_url('assets/js/plugin/chosen/chosen.jquery.js')?>"></script>
         <script src="<?=base_url('assets/libs/jquery-mask/jquery.mask.js')?>"></script>
         <script src="<?=base_url('assets/libs/popper.js/dist/umd/popper.min.js')?>"></script>
         <script src="<?=base_url('assets/libs/bootstrap/dist/js/bootstrap.min.js')?>"></script>

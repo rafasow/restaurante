@@ -9,7 +9,7 @@ class Configurar extends CI_Controller {
 
 		$dados['cat'] = $this->crud->buscar('*', 'grupo', 'ativo_gru = 1');
 
-		$dados['sub'] = $this->crud-> busca_livre('SELECT * 
+		$dados['sub'] = $this->crud->busca_livre('SELECT * 
 														FROM subgrupo sub
 														INNER JOIN grupo g ON g.id_grupo = sub.id_grupo_sub');
 
@@ -22,13 +22,13 @@ class Configurar extends CI_Controller {
     
     public function Fornecedor()
     {
-
+		$dados['fornecedor'] = $this->crud->busca_livre('SELECT * FROM fornecedor  WHERE ativo_for = 1');
 
 		$rodape['js'] = array('assets/js/paginas/mascara.js'.V,
 							'assets/js/paginas/fornecedor.js'.V);
 
         $this->load->view('estrutura/cabecalho');
-		$this->load->view('fornecedor/fornecedor');
+		$this->load->view('fornecedor/fornecedor', $dados);
 		$this->load->view('estrutura/rodape', $rodape);
 	}
 	
@@ -65,17 +65,46 @@ class Configurar extends CI_Controller {
 		
 	}
 
+	public function buscar_fornecedor(){
+
+		$dados = $this->crud->busca_livre('SELECT *
+											FROM fornecedor 
+											WHERE fornecedor.ativo_for = 1');
+
+		if(!empty($dados)){
+
+			echo json_encode(array('retorno' => true, 'dados' => $dados));
+		}else{
+
+			echo json_encode(array('retorno' => false));
+
+		}
+	}
+
 	public function Salvar_categoria(){
 
 		$dados = $this->input->post();
+		var_dump($dados);
 		if(!empty($dados)){
-			$set['descricao_gru'] = $dados['descri'];
-			$set['ativo_gru	'] = 1;
+			if(empty($dados['acao'])){
 
-			$retorno = $this->crud->inserir('grupo', $set);
+				$set['descricao_gru'] = $dados['descri'];
+				$set['ativo_gru	'] = 1;
 
-			if($retorno){
-				echo json_encode(array('retorno' => true));
+				$retorno = $this->crud->inserir('grupo', $set);
+
+				if($retorno){
+					echo json_encode(array('retorno' => true));
+				}
+			}else{
+
+				$set['descricao_gru'] = $dados['descri'];
+
+				$retorno = $this->crud->atualizar('grupo', $set, 'id_grupo = '.$dados['codigo']);
+
+				if($retorno){
+					echo json_encode(array('retorno' => true));
+				}
 			}
 		}
 
@@ -114,15 +143,75 @@ class Configurar extends CI_Controller {
 
 	public function buscar_subcategoria(){
 
-		$codigo = $this->input->post('codigo');
+		$codigo = $this->input->post();
 		//var_dump($codigo);exit;
-		$dados = $this->crud->buscar('*', 'subgrupo', 'id_sub = '.$codigo);
-		//var_dump($dados);exit;
-		if(!empty($dados)){
-			echo json_encode(array('retorno' => true, 'dados' => $dados ));
+		if(empty($codigo['ativo'])){
+
+			$dados = $this->crud->buscar('*', 'subgrupo', 'id_sub = '.$codigo['codigo']);
+			
+			if(!empty($dados)){
+				echo json_encode(array('retorno' => true, 'dados' => $dados ));
+			}else{
+				echo json_encode(array('retorno' => false));
+			}
+		}else{
+
+			$dados = $this->crud->busca_livre('SELECT * FROM subgrupo sub WHERE id_grupo_sub = ' . $codigo["codigo"] . ' AND ativo_sub = 1');
+			//$dados = $this->crud->buscar('*', 'subgrupo', 'id_grupo_sub = '.$codigo['codigo']);
+
+			if(!empty($dados)){
+				echo json_encode(array('retorno' => true, 'dados' => $dados));
+			}else{
+				echo json_encode(array('retorno' => false));
+			}
+		}
+
+		
+	}
+
+	public function excluir_categoria(){
+
+		$codigo = $this->input->post('codigo');
+
+		$set['ativo_gru'] = 0;
+
+		$retorno = $this->crud->atualizar('grupo', $set, 'id_grupo = '.$codigo['codigo']);
+
+		if($retorno){
+			echo json_encode(array('retorno' => true));
 		}else{
 			echo json_encode(array('retorno' => false));
 		}
+	}
+
+	public function buscar_categoria(){
+
+		$codigo = $this->input->post();
+
+		$dados = $this->crud->buscar('*', 'grupo', 'id_grupo = '.$codigo['codigo']);
+
+		if(!empty($dados)){
+
+			echo json_encode(array('retorno' => true, 'dados' => $dados));
+		}else{
+			echo json_encode(array('retorno' => false));
+		}
+	}
+
+	public function excluir_subcategoria(){
+
+		$codigo = $this->input->post();
+
+		$set['ativo_sub'] = 0;
+
+		$retorno = $this->crud->atualizar('subgrupo', $set, 'id_sub = '.$codigo['codigo']);
+
+		if($retorno){
+			echo json_encode(array('retorno' => true));
+		}else{
+			echo json_encode(array('retorno' => false));
+		}
+
 	}
 
 }

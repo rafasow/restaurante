@@ -26,9 +26,9 @@
                                 <td><?=$cada['descricao_gru']?></td>
                                 <td>
                                 <button type="button" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#<?=$cada['id_grupo']?>" title="Listar Subcategorias"><i class="fas fa-list"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm" title="Editar Categoria"><i class="fas fa-edit"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm" id="editar-cat" data-codigo="<?=$cada['id_grupo']?>" title="Editar Categoria"><i class="fas fa-edit"></i></button>
                                 <button type="button" class="btn btn-primary btn-sm" id='mais-sub' data-codigo="<?=$cada['id_grupo']?>" data-toggle="modal" data-target="#addsubcategoria" title="Adicionar Subcategoria"><i class="fas fa-plus"></i></button>
-                                <button type="button" class="btn btn-primary btn-sm" title="Excluir Categoria"><i class="fas fa-ban"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm" id='excluir-cat'  data-codigo="<?=$cada['id_grupo']?>" title="Excluir Categoria"><i class="fas fa-ban"></i></button>
                                 </td>
                                 
                                 <?php } } else { ?>
@@ -58,8 +58,10 @@
         <form>
             <div class="mb-3">
                 <label  class="form-label">Descrição</label>
-                <input type="text" class="form-control" id="descricao-cat">
+                <input type="text" class="form-control" id="descricao-cat" value="">
             </div>
+            <input type="hidden" id="id-cat" value="">
+            <input type="hidden" id="acao-cat" value="">
             <button type="submit" id="salvar-categoria" class="btn btn-primary">Salvar</button>
         </form>
       </div>

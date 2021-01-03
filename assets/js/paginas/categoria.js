@@ -5,26 +5,50 @@ $(document).ready(function(){
 
 //adicionmar uma nova categoria
 $(document).on('click', '#salvar-categoria', function(){
-
-    var descri = $('#descricao-cat').val();
-    if(descri != ''){
-        $.ajax({
-            url: base_url + 'configurar/salvar_categoria',
-            type: 'POST',
-            data:{ descri: descri},
-            dataType: 'json',
-            success: function(data){
-                if(data.retorno){
-                    alert('Dados salvo com sucesso!');
-                    location.reload();
-    
-                }else{
-                    
+    var acao = $('#acao-cat').val();
+    console.log(acao)
+    if(acao == '' || acao == null){
+        var descri = $('#descricao-cat').val();
+        if(descri != ''){
+            $.ajax({
+                url: base_url + 'configurar/salvar_categoria',
+                type: 'POST',
+                data:{ descri: descri},
+                dataType: 'json',
+                success: function(data){
+                    if(data.retorno){
+                        alert('Dados salvo com sucesso!');
+                        location.reload();
+        
+                    }else{
+                        
+                    }
                 }
-            }
-        })
+            })
+        }else{
+            alert("Não pode salvar valor vazio!")
+        }
     }else{
-        alert("Não pode salvar valor vazio!")
+        var descri = $('#descricao-cat').val();
+        var codigo = $('#id-cat').val();
+        
+        if(descri != ''){
+            $.ajax({
+                url: base_url + 'configurar/salvar_categoria',
+                type: 'POST',
+                data:{ descri: descri, codigo: codigo, acao: acao},
+                dataType: 'json',
+                success: function(data){
+                    if(data.retorno){
+                        alert('Dados atualizados com sucesso!');
+                        location.reload();
+        
+                    }else{
+                        
+                    }
+                }
+            })
+        }
     }
    
 
@@ -32,6 +56,8 @@ $(document).on('click', '#salvar-categoria', function(){
 
 $(document).on('click', '#mais-sub', function(){
     $('#codigo-cat').val($(this).data('codigo'));
+    $('#descricao-sub').val('');
+    $('#acao').val('');
 
 });
 
@@ -40,8 +66,6 @@ $(document).on('click', '#salvar-subcategoria', function(){
     var descri = $('#descricao-sub').val();
     var codigo = $('#codigo-cat').val();
     var acao = $('#acao').val();
-    //console.log(acao);
-    //console.log(codigo + ' ' + descri)
     if(descri != '' && (acao == '' || acao == null)){
         $.ajax({
             url: base_url + 'configurar/salvar_subcategoria',
@@ -111,4 +135,87 @@ $(document).on('click', '#editar-sub', function(){
             }
         });
     }
+});
+
+$(document).on('click', '#excluir-cat', function(){
+
+    if(confirm('Ao excluir a categoria, você excluira todas a subcategorias. Deseja excluir a categoria?')){
+
+        var codigo = $(this).data('codigo');
+           
+        $.ajax({
+            url: base_url + 'configurar/excluir_categoria',
+            type: 'POST',
+            data:{codigo: codigo},
+            dataType: 'json',
+            success: function(data){
+                if(data.retorno){                  
+                    alert('Categoria excluida com sucesso!!');
+                    location.reload();
+  
+                }else{
+                    alert('Erro ao inserir os dados!')
+                }
+            }, error: function(){
+                alert('Erro no servidor!');
+            }
+        });
+    }
+});
+
+$(document).on('click', '#editar-cat', function(){
+
+   var codigo = $(this).data('codigo');
+   //console.log(codigo)
+    if(codigo != ''){
+        $.ajax({
+            url: base_url + 'configurar/buscar_categoria',
+            type: 'POST',
+            data:{codigo: codigo},
+            dataType: 'json',
+            success: function(data){
+                if(data.retorno){
+                   //console.log(data.dados['id_grupo_sub'])
+                    $('#descricao-cat').val(data.dados[0]['descricao_gru']);
+                    $('#id-cat').val(data.dados[0]['id_grupo']);
+                    $('#acao-cat').val('1');
+                    $('#addcategoria').modal('show');
+                    
+                }else{
+                    alert('Erro ao inserir os dados!')
+                }
+            }, error: function(){
+                alert('Erro no servidor!');
+            }
+        });
+    }
+});
+
+$(document).on('click', '#excluir-sub', function(){
+
+    var codigo = $(this).data('codigo');
+    
+    if(codigo != ''){
+        console.log('entrou no if')
+        if(window.confirm('Deseja realmente exluir a subcategoria? Essa ação é irreversível!')){
+            $.ajax({
+                url: base_url + 'configurar/excluir_subcategoria',
+                type: 'POST',
+                data:{codigo: codigo},
+                dataType: 'json',
+                success: function(data){
+                    if(data.retorno){
+                        alert('Subcategoria ecluído com sucesso!!');
+                        location.reload();
+                        
+                    }else{
+                        alert('Erro ao inserir os dados!')
+                    }
+                }, error: function(){
+                    alert('Erro no servidor!');
+                }
+            });
+        }
+    }
+
 });

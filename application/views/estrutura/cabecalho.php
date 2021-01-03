@@ -14,7 +14,8 @@
     <!-- Custom CSS -->
     <link href="<?=base_url('assets/libs/flot/css/float-chart.css')?>" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="<?=base_url('assets/dist/css/style.min.css" rel="stylesheet')?>">
+    <link href="<?=base_url('assets/dist/css/style.min.css"')?>" rel="stylesheet">
+    <link href="<?=base_url('assets/js/plugin/chosen/chosen.css')?>" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -238,7 +239,7 @@
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Cadastro </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href="<?=base_url('Configurar/fornecedor')?>" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Fornecedor </span></a></li>
-                                <li class="sidebar-item"><a href="form-wizard.html" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Clientes </span></a></li>
+                                <li class="sidebar-item"><a href="<?=base_url('produtos')?>" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Produto </span></a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pages-buttons.html" aria-expanded="false"><i class="mdi mdi-relative-scale"></i><span class="hide-menu">Buttons</span></a></li>

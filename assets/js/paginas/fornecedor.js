@@ -87,13 +87,7 @@ $(document).on('click', '#salvar', function(){
         dataType: 'json',
         success: function(data){
             if(data.retorno){
-                alert('Enviado com sucesso!!');
-                limpa_formulário_cep();
-                
-                $('#nome-fantasia').val('');
-                $('#cnpj').val('');
-                $('#numero').val('');
-
+                location.reload();
 
             }else{
                 alert('Arrei Vasio :(')
@@ -101,7 +95,7 @@ $(document).on('click', '#salvar', function(){
 
         },
         error: function(e){
-            console.log(e);
+            console.log(e.message);
             alert('Deu um erro do caralho')
         }
     })
